@@ -92,7 +92,7 @@ class test_Cart(unittest.TestCase):
         self.co.clickguestButton()
         time.sleep(2)
         self.cl.info("........ Starting the shipping process...........")
-        self.co.clickshippingButton() #click on the
+        self.co.clickshippingButton()
         time.sleep(2)
         self.co.clickagreeTerms()
         time.sleep(2)
@@ -116,4 +116,5 @@ class test_Cart(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    #Generating the html report
     unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output="../reports"))

@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
+from utilities.readURL import readURL
 
 #Creating a class for Cart Objects
 class CartObjects:
@@ -43,7 +44,8 @@ class CartObjects:
     btn_confirmation_id="button-confirm"
     successMessage="//div[@id='content']/p[1]"
     btn_completeShipping_xpath="//a[@class='btn btn-primary']"
-    #create the constructor init
+    month_year=readURL.month_year() #call/invoke the month_year() method from the utilities readURL.py file
+    #create the constructor init and include driver as a parameter
     def __init__(self,driver):
        self.driver = driver
     #Move the cursor to/over Laptops and Notebooks(Mouse Actions)
@@ -60,59 +62,58 @@ class CartObjects:
         self.hplp3065=self.driver.find_element(By.XPATH,self.img_hplp3065_xpath)
         self.hplp3065.location_once_scrolled_into_view  #scroll the particular element you would like to scroll too
         self.hplp3065.click()
-
+    # Click on the Laptop(hplp3065) first picture
     def clickfirsthplp3065Picture(self):
         self.firsthplp3065=self.driver.find_element(By.XPATH,self.img_firsthplp3065Picture_xpath)
         self.firsthplp3065.click()
-
-    # Click on the next arrow
+    # Click on the next arrow until the last image/picture
     def clicknextbtn(self):
         self.btn_next = self.driver.find_element(By.XPATH, self.btn_next_xpath)
         for next in range(0, 2):
             self.btn_next.click()
-        # take/save a screenshot
+        # take/save a screenshot of the last image/picture and save it in a screenshots/Cart Product folder
         self.driver.save_screenshot('../screenshots/Cart Product/' + 'cartProduct' + str(random.randint(0, 101)) + '.png')
-
+    #Click on the close(x)
     def clickbtnClose(self):
         self.btn_Close = self.driver.find_element(By.XPATH, self.btn_close_xpath)
         self.btn_Close.click()
-
+    #Select the calendar
     def clickCalendar(self):    # Calendar
         self.calendar = self.driver.find_element(By.XPATH,self.select_calendar_xpath)
-        self.calendar.location_once_scrolled_into_view
+        self.calendar.location_once_scrolled_into_view #scroll to the calendar element inorder to view it
         self.calendar.click()
-
+    #  Select the month and year
     def clickMonthyear(self): #month year selector
         self.monthyear=self.driver.find_element(By.XPATH, self.select_MonthYear_xpath)
         self.nextcalendar=self.driver.find_element(By.XPATH,self.nextClickCalendar_xpath)
-        while self.monthyear.text != 'December 2022':
+        while self.monthyear.text != self.month_year:#use the variable month_year for the invoked/called method
             self.nextcalendar.click()
-
+    #Select the specific date(01)
     def clickcalendarDate(self):
         self.calendarDate=self.driver.find_element(By.XPATH,self.calendarDate_xpath)
         self.calendarDate.click()
-
+    #Providing the quantity of the item you want to buy
     def setquantity(self, quantity):
         self.quantity = self.driver.find_element(By.NAME, self.txt_quantity_name)
         self.quantity.clear()
         self.quantity.send_keys(quantity)
-
+    #Click on the Add to Cart button
     def clickAddtoCart(self):
         self.AddtoCart = self.driver.find_element(By.ID, self.btn_AddtoCart_id)
         self.AddtoCart.click()
-
+    #Click on the Cart icon to complete shipping
     def clickCart(self):
         self.btnCart=self.driver.find_element(By.XPATH,self.btn_cart_xpath)
         self.btnCart.click()
-
+    #Click on the Check out
     def clickCheckout(self):
         self.checkout=self.driver.find_element(By.XPATH, self.link_checkout_xpath)
         self.checkout.click()
-
+    #Click on the Guest radio button
     def clickradiobtnGuest(self):
         self.radiobtnGuest=self.driver.find_element(By.XPATH,self.radio_guest_xpath)
         self.radiobtnGuest.click()
-    #
+    #Click on the Continue button
     def clickbtnaccount(self):
         self.btnaccount=self.driver.find_element(By.XPATH,self.btn_account_xpath)
         self.btnaccount.click()
@@ -191,6 +192,7 @@ class CartObjects:
     def printsuccessMessage(self):
         self.success_text = self.driver.find_element(By.XPATH,self.successMessage )
         print(self.success_text.text)
+    #Click on the Complete shipping
     def completeShipping(self):
         self.completeShipping=self.driver.find_element(By.XPATH,self.btn_completeShipping_xpath)
         self.completeShipping.click()
